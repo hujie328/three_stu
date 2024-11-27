@@ -24,10 +24,7 @@ const camera = new THREE.PerspectiveCamera(
 let renderer = null;
 // 汽车集合
 let cars = [];
-let data = {
-  username:'admin',
-  password:'123456'
-}
+
 onMounted(() => {
 
   camera.position.set(0, 600, 600);
