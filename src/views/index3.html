@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butterfly Flying Animation</title>
+    <script src="https://unpkg.com/konva@8.3.4/konva.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script>
+        // 创建舞台
+        const stage = new Konva.Stage({
+            container: 'container',
+            width: 800,
+            height: 600
+        });
+
+        // 创建层
+        const layer = new Konva.Layer();
+
+        // 创建一个 Image 对象来加载蝴蝶图片
+        const butterflyImg = new Image();
+        butterflyImg.src = 'butterfly.png';
+
+        // 当图片加载完成后开始设置和动画
+        butterflyImg.onload = function () {
+            // 创建蝴蝶图像对象
+            const butterfly = new Konva.Image({
+                image: butterflyImg,
+                x: 0,
+                y: 200,
+                width: 100,
+                height: 100,
+                offsetX: 50,
+                offsetY: 50
+            });
+
+            // 将蝴蝶添加到层
+            layer.add(butterfly);
+            // 将层添加到舞台
+            stage.add(layer);
+
+            // 创建动画
+            const anim = new Konva.Animation(function (frame) {
+                // 让蝴蝶沿着 X 轴移动
+                butterfly.x(butterfly.x() + 1);
+
+                // 模拟蝴蝶扇动翅膀，通过改变缩放和旋转
+                const scaleFactor = 1 + 0.1 * Math.sin(frame.time * 0.01);
+                butterfly.scaleX(scaleFactor);
+                butterfly.scaleY(scaleFactor);
+                const rotationAngle = 10 * Math.sin(frame.time * 0.01);
+                butterfly.rotation(rotationAngle);
+
+                // 边界检测，如果蝴蝶飞出画布右侧，将其移到左侧
+                if (butterfly.x() > stage.width()) {
+                    butterfly.x(0);
+                }
+            }, layer);
+
+            // 启动动画
+            anim.start();
+        };
+
+
+    </script>
+</body>
+
+</html>

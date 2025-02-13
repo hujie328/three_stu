@@ -31,7 +31,7 @@ onMounted(() => {
   camera.lookAt(0, 0, 0); //坐标原点
   scene.add(camera);
 
-  renderer = new THREE.WebGLRenderer({ canvas: canvasEl.value });
+  renderer = new THREE.WebGLRenderer({ canvas: canvasEl.value, alpha: true });
   // 坐标辅助线
   const axesHelper = new THREE.AxesHelper(800);
   scene.add(axesHelper);
@@ -43,7 +43,6 @@ onMounted(() => {
   const url = "./assets/cartoon_lowpoly_small_city_free_pack/scene.gltf";
   gltfLoader.load(url, (gltf) => {
     const root = gltf.scene;
-    console.log(root);
     root.scale.set(0.5, 0.5, 0.5);
     root.position.set(200, 0, 200);
     scene.add(root);
@@ -73,14 +72,24 @@ const meshOnClick = (event) => {
   raycaster.setFromCamera(pointer, camera);
   const intersects = raycaster.intersectObjects(cars, true);
   if (intersects.length > 0) {
-    console.log(intersects[0].object);
     intersects[0].object.material = new THREE.MeshLambertMaterial({
       color: 0x000000,
     });
-    renderer.render(scene, camera);
+    const axesHelper = new THREE.AxesHelper(800);
+    // intersects[0].object.add(axesHelper)
+    // renderer.render(scene, camera);
+    animationHandle(intersects[0].object)
   } else {
   }
 };
+
+const animationHandle = (mode) => {
+  mode.position.x += 1
+  renderer.render(scene, camera);
+  if (mode.position.x < 100) {
+    window.requestAnimationFrame(animationHandle.bind('', mode))
+  }
+}
 </script>
 
 <style lang="scss" scoped>

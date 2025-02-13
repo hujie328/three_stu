@@ -6,7 +6,6 @@ const routes = [
     path: '/',
     name: 'modelLoading',
     component: ModelLoading,
-    redirect: '/BascDemo'
   },
   {
     path: '/BascDemo',
