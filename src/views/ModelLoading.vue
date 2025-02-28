@@ -1,5 +1,6 @@
 <template>
   <div class="home" ref="homeEl">
+    <Snowflake></Snowflake>
     <canvas @click="meshOnClick" id="canvasEl" ref="canvasEl"></canvas>
   </div>
 </template>
@@ -9,6 +10,7 @@ import { onMounted, ref } from "vue";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import Snowflake from "@/components/snowflake.vue";
 // @ is an alias to /src
 const canvasEl = ref();
 // 声明一个场景
@@ -31,7 +33,7 @@ onMounted(() => {
   camera.lookAt(0, 0, 0); //坐标原点
   scene.add(camera);
 
-  renderer = new THREE.WebGLRenderer({ canvas: canvasEl.value, alpha: true });
+  renderer = new THREE.WebGLRenderer({ canvas: canvasEl.value, alpha: false });
   // 坐标辅助线
   const axesHelper = new THREE.AxesHelper(800);
   scene.add(axesHelper);
